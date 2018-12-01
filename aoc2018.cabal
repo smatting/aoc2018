@@ -1,0 +1,90 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 36007e3fa5546ef8e277e53a02cccde40b13eb43d85bae3ca01be7dcfc001c50
+
+name:           aoc2018
+version:        0.1.0.0
+build-type:     Simple
+cabal-version:  >= 1.10
+data-files:
+    inputs/day1.txt
+
+library
+  exposed-modules:
+      AOC.Day1
+      AOC.Lib
+      Main
+  other-modules:
+      Paths_aoc2018
+  hs-source-dirs:
+      src/
+  default-extensions: OverloadedStrings
+  ghc-options: -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-patterns -fwarn-overlapping-patterns -fwarn-incomplete-record-updates -fno-warn-deprecations
+  build-depends:
+      aeson
+    , array
+    , attoparsec
+    , base
+    , bytestring
+    , containers
+    , data-default
+    , directory
+    , extra
+    , filepath
+    , http-client
+    , megaparsec
+    , mtl
+    , optparse-applicative
+    , parser-combinators
+    , process
+    , product-profunctors
+    , profunctors
+    , random
+    , split
+    , text
+    , time
+    , vector
+    , yaml
+  default-language: Haskell2010
+
+executable aoc2018
+  main-is: Main.hs
+  other-modules:
+      AOC.Day1
+      AOC.Lib
+      Paths_aoc2018
+  hs-source-dirs:
+      src/
+  default-extensions: OverloadedStrings
+  ghc-options: -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-patterns -fwarn-overlapping-patterns -fwarn-incomplete-record-updates -fno-warn-deprecations
+  build-depends:
+      aeson
+    , array
+    , attoparsec
+    , base
+    , bytestring
+    , containers
+    , data-default
+    , directory
+    , extra
+    , filepath
+    , http-client
+    , megaparsec
+    , mtl
+    , optparse-applicative
+    , parser-combinators
+    , process
+    , product-profunctors
+    , profunctors
+    , random
+    , split
+    , text
+    , time
+    , vector
+    , yaml
+  if os(darwin)
+    extra-libraries:
+        iconv
+  default-language: Haskell2010
