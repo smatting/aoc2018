@@ -2,18 +2,17 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 36007e3fa5546ef8e277e53a02cccde40b13eb43d85bae3ca01be7dcfc001c50
+-- hash: a79204e26ca52402d3f1bbba15ced2dd7692a495f89d1399f0b7ad8a191588f2
 
 name:           aoc2018
 version:        0.1.0.0
 build-type:     Simple
 cabal-version:  >= 1.10
-data-files:
-    inputs/day1.txt
 
 library
   exposed-modules:
       AOC.Day1
+      AOC.Day2
       AOC.Lib
       Main
   other-modules:
@@ -53,6 +52,7 @@ executable aoc2018
   main-is: Main.hs
   other-modules:
       AOC.Day1
+      AOC.Day2
       AOC.Lib
       Paths_aoc2018
   hs-source-dirs:
