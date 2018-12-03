@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a79204e26ca52402d3f1bbba15ced2dd7692a495f89d1399f0b7ad8a191588f2
+-- hash: 69d0aef6033923acb7dec868d341e671602c73ccaac333858d2e0005278cc62d
 
 name:           aoc2018
 version:        0.1.0.0
@@ -13,6 +13,7 @@ library
   exposed-modules:
       AOC.Day1
       AOC.Day2
+      AOC.Day3
       AOC.Lib
       Main
   other-modules:
@@ -41,6 +42,7 @@ library
     , product-profunctors
     , profunctors
     , random
+    , repa
     , split
     , text
     , time
@@ -53,6 +55,7 @@ executable aoc2018
   other-modules:
       AOC.Day1
       AOC.Day2
+      AOC.Day3
       AOC.Lib
       Paths_aoc2018
   hs-source-dirs:
@@ -79,6 +82,7 @@ executable aoc2018
     , product-profunctors
     , profunctors
     , random
+    , repa
     , split
     , text
     , time
