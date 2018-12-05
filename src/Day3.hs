@@ -1,8 +1,6 @@
 {-# LANGUAGE BangPatterns #-}
 
-module AOC.Day3
-
-where
+module Main where
 
 import AOC.Lib
 
@@ -90,25 +88,32 @@ applyClaimed2 ! claims =
   let
     !arr = zeros (d2 1000 1000)
   in
-    deepSeqArray arr $ foldlM f arr (fmap claimRange claims)
+    foldlM f arr claims
   where
-    f (!arr) (!r) =  computeP $ deepSeqArray arr (mapInsideRange r (+1) arr)
+    f (!arr) claim@(Claim id_ _ _ _ _) = do
+      let !r = claimRange claim
+      print id_
+      return $ computeP $ deepSeqArray arr (mapInsideRange r (+1) arr)
+
 
 solution1 = do
   claims <- loadInput
-  x <- applyClaimed2 (take 2 claims)
+  x <- applyClaimed2 claims
   print $ sumAllS x
 
 -- bar :: Array U DIM2 Int
 bar :: IO Int
 bar =
   let
-    arr = zeros (d2 1000 1000)
-    f arr = (mapInsideRange (range (0,0) (2,2)) (+1) arr)
+    !arr = zeros (d2 1000 1000)
+    -- f arr = (mapInsideRange (range (0,0) (2,2)) (+1) arr)
   in
     -- sumAllP $ f (f (f arr))
-    sumAllP $ f arr
+    -- sumAllP $ f arr
+     (deepSeqArray arr) $ sumAllP arr
 
+main =
+  solution1
 
 -- -- #296 @ 172,604: 11x16
 

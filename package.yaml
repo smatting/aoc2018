@@ -13,6 +13,8 @@ ghc-options:
     # - -fwarn-missing-signatures        # Warn about toplevel missing type signatures
     # - -fwarn-monomorphism-restriction  # Warn when the monomorphism restriction is applied implicitly
     # - -fwarn-unused-imports            # Warn about libraries imported without being used
+    - -threaded
+    - -with-rtsopts=-N4
 
 default-extensions:
     - OverloadedStrings
@@ -44,13 +46,28 @@ dependencies:
   - parser-combinators
   - repa
 
-library:
-  source-dirs: src/
+# library:
+#   source-dirs: src/
 
 executables:
-    aoc2018:
-        source-dirs: src/
-        main: Main.hs
+    # aoc2018:
+    #     source-dirs: src/
+    #     main: Main.hs
+    #     when:
+    #        - condition: os(darwin)
+    #          extra-libraries: iconv
+    day3:
+        source-dirs: src
+        main: Day3.hs
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
+    day4:
+        source-dirs: src
+        main: Day4.hs
+        other-modules:
+            - AOC.Lib
+            - Paths_aoc2018
         when:
            - condition: os(darwin)
              extra-libraries: iconv
