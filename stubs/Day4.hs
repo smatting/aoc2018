@@ -99,3 +99,9 @@ loadInput = do
 
 zeros :: Vector Int
 zeros = V.fromList (replicate 60 0)
+
+-- type P = Map (Day, Int) Int
+
+-- computeP :: [Entry] -> P
+-- computeP entries =
+--   foldl' f Map.empty entries

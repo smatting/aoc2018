@@ -1,8 +1,8 @@
-module AOC.Day2
+module Main (main)
 
 where
 
-import AOC.Lib
+import Advent
 
 import Prelude hiding (lines)
 import qualified Data.Text as T
@@ -55,3 +55,6 @@ solution2 = do
   lines <- parseInput <$> readInput
   print $ (asum . fmap firstRepeat . transpose . fmap dropLetters) lines
 
+main = do
+    solution1
+    solution2

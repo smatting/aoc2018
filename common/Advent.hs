@@ -1,4 +1,4 @@
-module AOC.Lib
+module Advent
 
 where
 

@@ -1,8 +1,8 @@
-module AOC.Day1
+module Main (main)
 
 where
 
-import AOC.Lib
+import Advent
 
 import Prelude hiding (lines)
 import qualified Data.Text as T
@@ -33,3 +33,7 @@ solution2 = do
   x <- parseInput <$> readInput
   let freqs = scanl1 (+) (cycle x)
   print $ firstRepeat freqs
+
+main = do
+  solution1
+  solution2

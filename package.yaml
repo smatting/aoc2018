@@ -50,41 +50,32 @@ dependencies:
 #   source-dirs: src/
 
 executables:
-    # aoc2018:
-    #     source-dirs: src/
-    #     main: Main.hs
-    #     when:
-    #        - condition: os(darwin)
-    #          extra-libraries: iconv
-    day3:
-        source-dirs: src
-        main: Day3.hs
-        when:
-           - condition: os(darwin)
-             extra-libraries: iconv
-    day4:
-        source-dirs: src
-        main: Day4.hs
+    day1:
+        source-dirs:
+            - execs
+            - common
+        main: Day1.hs
         other-modules:
-            - AOC.Lib
             - Paths_aoc2018
         when:
            - condition: os(darwin)
              extra-libraries: iconv
-    day5:
-        source-dirs: src
-        main: Day5.hs
+    day2:
+        source-dirs:
+            - execs
+            - common
+        main: Day2.hs
         other-modules:
-            - AOC.Lib
             - Paths_aoc2018
         when:
            - condition: os(darwin)
              extra-libraries: iconv
     day8:
-        source-dirs: src
+        source-dirs:
+            - execs
+            - common
         main: Day8.hs
         other-modules:
-            - AOC.Lib
             - Paths_aoc2018
         when:
            - condition: os(darwin)

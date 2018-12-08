@@ -2,7 +2,7 @@
 
 module Main where
 
-import AOC.Lib
+import Advent
 
 import Prelude hiding (lex)
 import Data.Void
