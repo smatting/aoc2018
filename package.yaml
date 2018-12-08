@@ -71,3 +71,21 @@ executables:
         when:
            - condition: os(darwin)
              extra-libraries: iconv
+    day5:
+        source-dirs: src
+        main: Day5.hs
+        other-modules:
+            - AOC.Lib
+            - Paths_aoc2018
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
+    day8:
+        source-dirs: src
+        main: Day8.hs
+        other-modules:
+            - AOC.Lib
+            - Paths_aoc2018
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
