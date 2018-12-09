@@ -70,11 +70,41 @@ executables:
         when:
            - condition: os(darwin)
              extra-libraries: iconv
+    day6:
+        source-dirs:
+            - execs
+            - common
+        main: Day6.hs
+        other-modules:
+            - Paths_aoc2018
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
+    day7:
+        source-dirs:
+            - execs
+            - common
+        main: Day7.hs
+        other-modules:
+            - Paths_aoc2018
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
     day8:
         source-dirs:
             - execs
             - common
         main: Day8.hs
+        other-modules:
+            - Paths_aoc2018
+        when:
+           - condition: os(darwin)
+             extra-libraries: iconv
+    day9:
+        source-dirs:
+            - execs
+            - common
+        main: Day9.hs
         other-modules:
             - Paths_aoc2018
         when:
