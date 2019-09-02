@@ -1,8 +1,6 @@
-module Main (main)
+module Day2
 
 where
-
-import Advent
 
 import Prelude hiding (lines)
 import qualified Data.Text as T
@@ -19,7 +17,12 @@ import qualified Data.Map as Map
 
 import Data.Foldable (foldr, foldl', asum)
 
-readInput = readInputFile "day2.txt"
+import Data.Text (Text)
+import qualified Data.Text as T
+import Control.Arrow
+
+import Lib
+
 
 parseInput =
   fmap T.unpack . T.lines
@@ -29,14 +32,6 @@ valueCounts s =
   foldl' f Map.empty s
     where
       f m k = Map.insertWith (+) k 1 m
-
-solution1 = do
-  lines <- parseInput <$> readInput
-  let l = fmap (Set.fromList . Map.elems . valueCounts) lines
-  print $ countDuplicityOrders 2 l * countDuplicityOrders 3 l
-  where
-    countDuplicityOrders k ds = sum $ fmap (boolToInt . Set.member k) ds
-    boolToInt b = if b then 1 else 0
 
 firstRepeat :: Ord a => [a] -> Maybe a
 firstRepeat = f Set.empty
@@ -51,10 +46,22 @@ dropLetters s = f "" s
     f s []     = []
     f s (x:xs) = (s ++ xs) : (f (s ++ [x]) xs) 
 
-solution2 = do
-  lines <- parseInput <$> readInput
-  print $ (asum . fmap firstRepeat . transpose . fmap dropLetters) lines
 
-main = do
-    solution1
-    solution2
+solution :: PuzzlePart -> Text -> Text
+solution Part1 = parseInput
+                 >>> fmap (Set.fromList . Map.elems . valueCounts)
+                 >>> countDuplicityOrders 2 &&& countDuplicityOrders 3 
+                 >>> uncurry (*)
+                 >>> show
+                 >>> T.pack
+  where
+    countDuplicityOrders k ds = sum $ fmap (boolToInt . Set.member k) ds
+    boolToInt b = if b then 1 else 0
+
+solution Part2 = parseInput
+                 >>> fmap dropLetters
+                 >>> transpose
+                 >>> fmap firstRepeat
+                 >>> asum
+                 >>> show
+                 >>> T.pack
