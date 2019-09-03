@@ -15,6 +15,7 @@ import Lib
 import qualified Day1
 import qualified Day2
 import qualified Day3
+import qualified Day4
 
 
 puzzlePartParser :: Parser PuzzlePart
@@ -40,6 +41,7 @@ parseProgram =
     (    mk "day1" Day1.solution 
       <> mk "day2" Day2.solution
       <> mk "day3" Day3.solution
+      <> mk "day4" Day4.solution
     )
 
 

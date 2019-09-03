@@ -1,4 +1,5 @@
 {-# language BangPatterns #-}
+{-# language OverloadedStrings #-}
 
 module Day3
 
