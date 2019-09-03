@@ -92,14 +92,8 @@ solution Part2 input =
     in
       T.pack . show $ filter (patchIsUnique cnt) patches
 
-
-concatMaybes :: [Maybe a] -> [a]
-concatMaybes = concat . fmap maybeToList 
-
-
 patchIsUnique :: Counts -> Patch -> Bool
 patchIsUnique counts =
       points
-  >>> fmap (`M.lookup` counts)
-  >>> concatMaybes
+  >>> mapMaybe (`M.lookup` counts)
   >>> all (== 1)

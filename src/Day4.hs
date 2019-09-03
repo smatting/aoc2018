@@ -29,14 +29,15 @@ import Data.List.Split
 import Data.List
 
 import Control.Lens
+import Data.Ord
 
 
 import Lib
 
 type Parser = Parsec Void Text
 
-newtype Guard = Guard Integer
-  deriving (Eq, Show)
+newtype Guard = Guard Int
+  deriving (Eq, Show, Ord)
 
 data EventData =
     BeginsShift Guard
@@ -86,19 +87,11 @@ withEvents input f =
     Left err -> T.pack (parseErrorPretty err)
     Right events -> f events
 
-solution :: PuzzlePart -> Text -> Text
-solution _ input = 
-  withEvents input $ (
-        sortOn _eventTime
-    >>> splitByGuards
-    >>> fmap guardBlock
-    >>> concatMaybes
-    >>> head
-    >>> show
-    >>> T.pack
-    )
+equating :: Eq b => (a -> b) -> (a -> a -> Bool)
+equating f x y = f x == f y
 
-type MinuteCounts = Map Integer Integer
+tally :: Ord a => Eq a => [a] -> [(a, Int)]
+tally = fmap (head &&& length) . group . sort
 
 isBeginsShift :: Event -> Bool
 isBeginsShift (Event time (BeginsShift _)) = True
@@ -107,24 +100,52 @@ isBeginsShift _                            = False
 splitByGuards :: [Event] -> [[Event]]
 splitByGuards = split (keepDelimsL (whenElt isBeginsShift))
 
-guardBlock :: [Event] -> Maybe (Guard, Day, [Event])
-guardBlock all@((Event time (BeginsShift g)):xs) = Just (g, utctDay time, all)
+guardBlock :: [Event] -> Maybe (Guard, [Event])
+guardBlock all@((Event time (BeginsShift g)):xs) = Just (g, all)
 guardBlock _ = Nothing
 
-concatMaybes :: [Maybe a] -> [a]
-concatMaybes = concat . fmap maybeToList 
---
+minute :: UTCTime -> Int
+minute = fromIntegral . todMin . timeToTimeOfDay . utctDayTime
 
-eventMinute :: Event -> Integer
-eventMinute = fromIntegral . todMin . timeToTimeOfDay . utctDayTime . _eventTime
+smin :: Event -> Event -> [Int]
+smin (Event t1 FallsAsleep) (Event t2 WakesUp) =
+  [minute t1 .. (minute t2 - 1)]
+smin _ _ = []
 
-xx :: MinuteCounts -> Integer -> MinuteCounts
-xx mc minute = over (at minute . non 0) (+1) mc
+sleepyMinutes :: [Event] -> [Int]
+sleepyMinutes [] = []
+sleepyMinutes (x:xs) =
+  concat (zipWith smin (x:xs) xs)
 
+code :: (Guard, (Int, Int)) -> Int
+code ((Guard k), (m, _)) = k * m
 
-countMinutes :: [Event] -> MinuteCounts
-countMinutes = foldl' xx M.empty . fmap eventMinute
+tallyMinutesByGuard :: [Event] -> [(Guard, [(Int, Int)])]
+tallyMinutesByGuard = 
+        sortOn _eventTime
+    >>> splitByGuards
+    >>> mapMaybe guardBlock
+    >>> sortBy (comparing fst)
+    >>> groupBy (equating fst)
+    >>> fmap (fst . head &&& tally . concatMap (sleepyMinutes . snd))
+    >>> filter (not . null . snd)
 
+solution :: PuzzlePart -> Text -> Text
 
--- countMinutes :: Guard -> Day -> [Event] -> MinuteCounts
--- countMinutes g events = _eventTime
+solution Part1 input = 
+  withEvents input $ (
+        tallyMinutesByGuard
+    >>> maximumBy (comparing (sum . fmap snd . snd))
+    >>> fst &&& maximumBy (comparing snd) . snd
+    >>> code
+    >>> show
+    >>> T.pack )
+
+solution Part2 input = 
+  withEvents input $ (
+        tallyMinutesByGuard
+    >>> concatMap (\(g, l) -> zip (repeat g) l)
+    >>> maximumBy (comparing (snd . snd))
+    >>> code
+    >>> show
+    >>> T.pack )
