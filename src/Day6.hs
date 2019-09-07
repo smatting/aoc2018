@@ -1,5 +1,6 @@
 {-# language BangPatterns #-}
 {-# language OverloadedStrings #-}
+{-# LANGUAGE ViewPatterns #-}
 
 
 module Day6
@@ -10,6 +11,7 @@ import Text.Megaparsec
 import Data.Void
 import Data.Text (Text)
 import qualified Data.Text as T
+import qualified Data.Text.IO as T
 import Control.Arrow
 
 import Text.Megaparsec.Char
@@ -36,6 +38,10 @@ import Data.Char
 import           Data.CaseInsensitive  ( CI )
 import qualified Data.CaseInsensitive as CI
 
+import Control.Monad
+import Data.Traversable
+import Data.Functor
+
 import Lib
 
 
@@ -43,6 +49,9 @@ data Point = Point Int Int
   deriving (Eq, Ord, Show)
 
 type Parser = Parsec Void Text
+
+data Anchor = Anchor { _anchorId :: Char, _anchorPoint :: Point}
+  deriving (Eq, Ord, Show)
 
 pointParser :: Parser [Point]
 pointParser =
@@ -68,13 +77,13 @@ uniqueHead f (x1:x2:xs)
 strictMinimum :: (Ord b, Eq b) => (a -> b) -> [a] -> Maybe a
 strictMinimum f = sortBy (comparing f) >>> uniqueHead (equating f)
 
-distances :: [Point] -> Point -> [(Point, Int)]
-distances anchors point = fmap (id &&& manhattan point) anchors
+distances :: [Anchor] -> Point -> [(Anchor, Int)]
+distances anchors point = fmap (id &&& manhattan point . _anchorPoint) anchors
 
-closestAnchor :: [Point] -> Point -> Maybe (Point, Int)
+closestAnchor :: [Anchor] -> Point -> Maybe (Anchor, Int)
 closestAnchor anchors = strictMinimum snd  . distances anchors
 
-buildAnchorMap :: [Point] -> [Point] -> Map Point [(Point, Int)]
+buildAnchorMap :: [Anchor] -> [Point] -> Map Anchor [(Point, Int)]
 buildAnchorMap anchors = 
           fmap (id &&& closestAnchor anchors)
       >>> foldl' f M.empty
@@ -85,13 +94,13 @@ data Rectangle
   = Rectangle Int Int Int Int
   deriving (Eq, Show)
 
-boundingBox :: [Point] -> Rectangle
-boundingBox points =
+boundingBox :: Int -> [Point] -> Rectangle
+boundingBox padding points =
   let
     xs = fmap (\(Point x _) -> x) points
     ys = fmap (\(Point _ y) -> y) points
   in
-    Rectangle (minimum xs) (minimum ys) (maximum xs) (maximum ys)
+    Rectangle (minimum xs - padding) (minimum ys - padding) (maximum xs + padding) (maximum ys + padding)
 
 touches :: Rectangle -> Point -> Bool
 touches (Rectangle xmin ymin xmax ymax) (Point x y) =
@@ -104,27 +113,66 @@ rectanglePoints :: Rectangle -> [Point]
 rectanglePoints (Rectangle xmin ymin xmax ymax) =
   [Point x y | x <- [xmin..xmax], y <- [ymin..ymax]]
 
-removeInfinite :: Rectangle -> Map Point [(Point, Int)] -> Map Point [(Point, Int)]
+removeInfinite :: Rectangle -> Map Anchor [(Point, Int)] -> Map Anchor [(Point, Int)]
 removeInfinite bbox = M.filterWithKey f
-  where f anchor = any (touches bbox . fst)
+  where f anchor = not . any (touches bbox . fst)
 
 show' :: Show a => a -> Text
 show' = T.pack . show
 
+enumeratePoints :: [Point] -> [Anchor]
+enumeratePoints = 
+  zipWith Anchor (cycle ['A'..'Z'])
+
+invertMap :: Ord b => Map a [b] -> Map b a 
+invertMap =
+  M.toList
+  >>> concatMap (uncurry (fmap . flip (,)))
+  >>> M.fromList
+
+anchorMapToPoints :: Map Anchor [(Point, Int)] -> Map Point Anchor
+anchorMapToPoints = M.mapKeys fst . invertMap
+
+showField :: Rectangle -> Map Point Anchor -> Text
+showField (Rectangle xmin ymin xmax ymax) m =
+  T.intercalate "\n" $
+    [ymin..ymax] <&> \y ->
+      T.pack $ [xmin..xmax] <&> \x ->
+        let p = Point x y in
+        case M.lookup p m of
+          Nothing -> '.'
+          Just (Anchor char ap) ->
+            if ap /= p
+               then toLower char
+               else char
+
+sumDistance :: [Anchor] -> Point -> Int
+sumDistance anchors point =
+  sum $ fmap (manhattan point . _anchorPoint) anchors
+
 solution :: PuzzlePart -> Text -> Text
 solution Part1 input = 
   let
-    anchors = parseInput input
-    bbox = boundingBox anchors
-    points = rectanglePoints bbox
+    anchors = (enumeratePoints . parseInput) input
+    bbox = boundingBox 1 (fmap _anchorPoint anchors)
+    points = rectanglePoints bbox 
     amap' = buildAnchorMap anchors points
     amap = removeInfinite bbox amap'
     n = maximum (fmap length (M.elems amap))
   in
-    -- show' $ fmap (id . fst &&& length . snd) (M.toList amap')
-    show' amap
+    show' n
 
-solution Part2 x = id x
+solution Part2 input =
+  let
+    anchors = (enumeratePoints . parseInput) input
+    bbox = boundingBox 1 (fmap _anchorPoint anchors)
+    points = rectanglePoints bbox 
+  in
+    show' $ length $ filter ((< 10000) . sumDistance anchors) points
+
+
+dummyPart1 = T.putStrLn $ solution Part1 s
+dummyPart2 = T.putStrLn $ solution Part2 s
 
 s :: Text
 s = "\
