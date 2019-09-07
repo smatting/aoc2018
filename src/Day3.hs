@@ -1,4 +1,3 @@
-{-# language BangPatterns #-}
 {-# language OverloadedStrings #-}
 
 module Day3
@@ -53,7 +52,7 @@ parsePatches =
 withPatches :: Text -> ([Patch] -> Text) -> Text
 withPatches input f =
   case runParser parsePatches "" input of
-    Left err -> T.pack (parseErrorPretty err)
+    Left err -> T.pack (errorBundlePretty err)
     Right patches -> f patches
 
 type Counts = Map Point Int
@@ -77,7 +76,7 @@ countPatches = foldr countPatch
 solution :: PuzzlePart -> Text -> Text
 
 solution Part1 input =
-  withPatches input $
+  withPatches input
     (    countPatches M.empty
      >>> M.elems
      >>> filter (>= 2)

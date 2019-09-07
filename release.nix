@@ -1,9 +1,9 @@
 let
-  nixpkgSrc = import ./nixpkgs-source.nix {};
+  nixpkgSrc = (import ./nix/sources.nix).nixpkgs;
 
   config = rec {
     packageOverrides = pkgs: rec {
-      haskellPackages = pkgs.haskellPackages.override {
+      haskellPackages = pkgs.haskell.packages.ghc865.override {
         overrides = self: super: rec {
 
           myHaskellPackage = pkgs.haskell.lib.overrideCabal

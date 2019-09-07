@@ -4,7 +4,6 @@ where
 
 import Lib
 
-import Prelude hiding (lines)
 import qualified Data.Text as T
 import Data.Text.Read
 import Data.Either (rights)

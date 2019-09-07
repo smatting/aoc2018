@@ -1,4 +1,3 @@
-{-# language BangPatterns #-}
 {-# language OverloadedStrings #-}
 
 module Day4
@@ -84,7 +83,7 @@ eventsParser =
 withEvents :: Text -> ([Event] -> Text) -> Text
 withEvents input f =
   case runParser eventsParser "" input of
-    Left err -> T.pack (parseErrorPretty err)
+    Left err -> T.pack (errorBundlePretty err)
     Right events -> f events
 
 equating :: Eq b => (a -> b) -> (a -> a -> Bool)

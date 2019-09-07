@@ -2,8 +2,7 @@ module Day2
 
 where
 
-import Prelude hiding (lines)
-import qualified Data.Text as T
+import Prelude
 import Data.Text.Read
 import Data.List (transpose)
 
@@ -28,8 +27,8 @@ parseInput =
   fmap T.unpack . T.lines
 
 valueCounts :: Ord a => [a] -> Map a Int
-valueCounts s =
-  foldl' f Map.empty s
+valueCounts =
+  foldl' f Map.empty
     where
       f m k = Map.insertWith (+) k 1 m
 
@@ -41,10 +40,10 @@ firstRepeat = f Set.empty
                   | otherwise = f (Set.insert x seen) xs
 
 dropLetters :: String -> [String]
-dropLetters s = f "" s
+dropLetters = f ""
   where
     f s []     = []
-    f s (x:xs) = (s ++ xs) : (f (s ++ [x]) xs) 
+    f s (x:xs) = (s ++ xs) : f (s ++ [x]) xs 
 
 
 solution :: PuzzlePart -> Text -> Text

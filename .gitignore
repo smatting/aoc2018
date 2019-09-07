@@ -1,3 +1,6 @@
 result
 dist
 dist-newstyle
+tags
+cabal.project.local
+*~
