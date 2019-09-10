@@ -1,11 +1,19 @@
 module Lib
 where
 
+import Data.Text (Text)
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+
 data PuzzlePart = Part1 | Part2 deriving (Eq, Show)
+
 
 x = 3
 
--- readInputFile :: String -> IO Text
--- readInputFile fn = do
---   T.readFile ("inputs/" <> fn)
 
+runSolver :: (PuzzlePart -> Text -> Text) -> FilePath -> PuzzlePart -> IO ()
+runSolver solver filename part =
+  T.readFile filename >>= (pure . solver part) >>= T.putStrLn
+
+runPuzzle :: (PuzzlePart -> Text -> Text) -> String -> PuzzlePart -> IO ()
+runPuzzle solver day = runSolver solver ("inputs/" <> day <> ".txt")

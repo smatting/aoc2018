@@ -29,12 +29,16 @@ runSolver :: (PuzzlePart -> Text -> Text) -> FilePath -> PuzzlePart -> IO ()
 runSolver solver filename part =
   T.readFile filename >>= (pure . solver part) >>= T.putStrLn
 
+runPuzzle :: (PuzzlePart -> Text -> Text) -> String -> PuzzlePart -> IO ()
+runPuzzle solver day = runSolver solver ("inputs/" <> day <> ".txt")
 
 mk :: String -> (PuzzlePart -> Text -> Text) -> Mod CommandFields (IO ())
 mk day solver =
   command
     day
-    (info (runSolver solver ("inputs/" <> day <> ".txt") <$> puzzlePartParser) fullDesc) 
+    (info (runPuzzle solver day <$> puzzlePartParser) fullDesc) 
+
+
 
 
 parseProgram :: Parser (IO ())
