@@ -21,28 +21,23 @@ library
   default-extensions: OverloadedStrings
   ghc-options: -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-patterns -fwarn-overlapping-patterns -fwarn-incomplete-record-updates -fno-warn-deprecations -threaded -with-rtsopts=-N4
   build-depends:
-      aeson
-    , array
-    , attoparsec
+      array
     , base
     , bytestring
     , case-insensitive
+    , aeson
     , containers
     , data-default
     , directory
     , extra
     , filepath
-    , http-client
     , lens
     , megaparsec
     , mtl
     , optparse-applicative
     , parser-combinators
     , process
-    , product-profunctors
-    , profunctors
     , random
-    , repa
     , split
     , text
     , time
