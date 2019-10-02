@@ -1,2 +1,1 @@
-cradle:
-  cabal:
+cradle: {cabal: {component : "lib:aoc2018"}}
