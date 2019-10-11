@@ -2,6 +2,7 @@
   pkgs = hackage:
     {
       packages = {
+        "optics-core".revision = (((hackage."optics-core")."0.1").revisions).default;
         "void".revision = (((hackage."void")."0.7.3").revisions).default;
         "void".flags.safe = false;
         "semigroupoids".revision = (((hackage."semigroupoids")."5.3.3").revisions).default;
@@ -41,6 +42,7 @@
         "parallel".revision = (((hackage."parallel")."3.2.2.0").revisions).default;
         "deepseq".revision = (((hackage."deepseq")."1.4.4.0").revisions).default;
         "random".revision = (((hackage."random")."1.1").revisions).default;
+        "optics-th".revision = (((hackage."optics-th")."0.1").revisions).default;
         "uuid-types".revision = (((hackage."uuid-types")."1.0.3").revisions).default;
         "optparse-applicative".revision = (((hackage."optparse-applicative")."0.15.0.0").revisions).default;
         "dlist".revision = (((hackage."dlist")."0.8.0.7").revisions).default;
@@ -114,6 +116,7 @@
         "ansi-wl-pprint".revision = (((hackage."ansi-wl-pprint")."0.6.9").revisions).default;
         "ansi-wl-pprint".flags.example = false;
         "old-locale".revision = (((hackage."old-locale")."1.0.0.7").revisions).default;
+        "optics".revision = (((hackage."optics")."0.1").revisions).default;
         "StateVar".revision = (((hackage."StateVar")."1.2").revisions).default;
         "raw-strings-qq".revision = (((hackage."raw-strings-qq")."1.1").revisions).default;
         "contravariant".revision = (((hackage."contravariant")."1.5.2").revisions).default;
@@ -122,6 +125,7 @@
         "contravariant".flags.statevar = true;
         "data-default-instances-dlist".revision = (((hackage."data-default-instances-dlist")."0.0.1").revisions).default;
         "type-equality".revision = (((hackage."type-equality")."1").revisions).default;
+        "optics-extra".revision = (((hackage."optics-extra")."0.1").revisions).default;
         "parser-combinators".revision = (((hackage."parser-combinators")."1.2.0").revisions).default;
         "parser-combinators".flags.dev = false;
         "text".revision = (((hackage."text")."1.2.3.1").revisions).default;

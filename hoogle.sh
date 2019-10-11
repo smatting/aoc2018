@@ -1,2 +1,2 @@
 #!/bin/sh
-nix-shell shell-hoogle.nix --run "hoogle server --local"
+nix-shell shell.nix --run "hoogle server --local"

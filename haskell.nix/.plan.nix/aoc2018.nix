@@ -40,6 +40,7 @@
           (hsPkgs.vector)
           (hsPkgs.yaml)
           (hsPkgs.raw-strings-qq)
+          (hsPkgs.optics)
           ];
         };
       exes = {

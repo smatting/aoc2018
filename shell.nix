@@ -1,4 +1,10 @@
 let
   hsPkgs = import ./haskell.nix/default-pinned.nix {};
 in
-  hsPkgs.aoc2018.components.all
+hsPkgs.shellFor {
+    packages = ps: [ps.aoc2018];
+    withHoogle = true;
+    shellHook = ''
+      export NIX_GHC_LIBDIR="$(dirname $(which ghc))/../lib/ghc-8.6.5";
+    '';
+}

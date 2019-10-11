@@ -7,9 +7,15 @@ Start a `nix-shell shell.nix` then run `cabal new-repl` and `cabal new-run`
 
 # Develop
 
-Configure
 
 ```
-nix-shell shell-nixpkgs.nix --run "cabal new-configure"  
-plan-to-nix -o haskell.nix
+./configure.sh
+nix-shell
+
+# then
+cabal new-repl
+# or
+ghcid --command "cabal new-repl"
+# or
+ghcide
 ```

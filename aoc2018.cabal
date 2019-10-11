@@ -45,6 +45,7 @@ library
     , vector
     , yaml
     , raw-strings-qq
+    , optics
   default-language: Haskell2010
 
 executable primes
