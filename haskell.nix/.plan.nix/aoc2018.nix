@@ -39,9 +39,14 @@
           (hsPkgs.time)
           (hsPkgs.vector)
           (hsPkgs.yaml)
+          (hsPkgs.raw-strings-qq)
           ];
         };
       exes = {
+        "primes" = {
+          depends = [ (hsPkgs.base) ];
+          libs = (pkgs.lib).optional (system.isOsx) (pkgs."iconv");
+          };
         "aoc" = {
           depends = [
             (hsPkgs.aoc2018)
@@ -54,4 +59,4 @@
           };
         };
       };
-    } // rec { src = (pkgs.lib).mkDefault ../../.; }
+    } // rec { src = (pkgs.lib).mkDefault .././../.; }

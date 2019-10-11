@@ -13,13 +13,14 @@ library
       Day5
       Day6
       Day7
+      Day13
       Lib
   other-modules:
       Paths_aoc2018
   hs-source-dirs:
       src/
   default-extensions: OverloadedStrings
-  ghc-options: -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-patterns -fwarn-overlapping-patterns -fwarn-incomplete-record-updates -fno-warn-deprecations -threaded -with-rtsopts=-N4
+  ghc-options: -W -O2
   build-depends:
       array
     , base
@@ -43,7 +44,24 @@ library
     , time
     , vector
     , yaml
+    , raw-strings-qq
   default-language: Haskell2010
+
+executable primes
+  main-is: primes.hs
+  other-modules:
+      Paths_aoc2018
+  hs-source-dirs:
+      execs
+  default-extensions: OverloadedStrings
+  ghc-options: -W -O2
+  build-depends:
+    base
+  if os(darwin)
+    extra-libraries:
+        iconv
+  default-language: Haskell2010
+
 
 executable aoc
   main-is: aoc.hs
@@ -52,7 +70,7 @@ executable aoc
   hs-source-dirs:
       execs
   default-extensions: OverloadedStrings
-  ghc-options: -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-patterns -fwarn-overlapping-patterns -fwarn-incomplete-record-updates -fno-warn-deprecations -threaded -with-rtsopts=-N4
+  ghc-options: -W -O2
   build-depends:
       aoc2018
     , base

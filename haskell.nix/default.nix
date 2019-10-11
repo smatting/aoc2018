@@ -1,8 +1,7 @@
-{ sources ? import ../nix/sources.nix }:
+{ pkgs ? import <nixpkgs> {} }:
 
 let
-  pkgs = import sources."nixpkgs" {};
-  haskell = import sources."haskell.nix"  { inherit pkgs; };
+  haskell = import (builtins.fetchTarball https://github.com/input-output-hk/haskell.nix/archive/master.tar.gz) { inherit pkgs; };
 
   pkgSet = haskell.mkCabalProjectPkgSet {
     plan-pkgs = import ./pkgs.nix;

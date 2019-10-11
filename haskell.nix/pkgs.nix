@@ -115,6 +115,7 @@
         "ansi-wl-pprint".flags.example = false;
         "old-locale".revision = (((hackage."old-locale")."1.0.0.7").revisions).default;
         "StateVar".revision = (((hackage."StateVar")."1.2").revisions).default;
+        "raw-strings-qq".revision = (((hackage."raw-strings-qq")."1.1").revisions).default;
         "contravariant".revision = (((hackage."contravariant")."1.5.2").revisions).default;
         "contravariant".flags.semigroups = true;
         "contravariant".flags.tagged = true;
