@@ -45,10 +45,6 @@
           ];
         };
       exes = {
-        "primes" = {
-          depends = [ (hsPkgs.base) ];
-          libs = (pkgs.lib).optional (system.isOsx) (pkgs."iconv");
-          };
         "aoc" = {
           depends = [
             (hsPkgs.aoc2018)
