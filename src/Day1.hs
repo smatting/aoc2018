@@ -7,7 +7,6 @@ import Lib
 import qualified Data.Text as T
 import Data.Text.Read
 import Data.Either (rights)
-import Data.Set (Set)
 import qualified Data.Set as S
 
 import Data.Text (Text)
@@ -17,10 +16,9 @@ import Control.Arrow
 firstRepeat :: Ord a => [a] -> Maybe a
 firstRepeat = f S.empty
   where
-    f seen []     = Nothing
+    f _    []     = Nothing
     f seen (x:xs) | x `S.member` seen = Just x
                   | otherwise = f (S.insert x seen) xs
-
 
 parseInput =
   fmap fst . rights . fmap (signed decimal) . T.lines

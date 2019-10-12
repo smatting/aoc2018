@@ -9,27 +9,15 @@ import Data.Void
 import Data.Text (Text)
 import qualified Data.Text as T
 import Control.Arrow
-
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer
-
 import Data.Time.Clock
 import Data.Time.Calendar
 import Data.Time.LocalTime
-
-import Control.Monad.Combinators
-
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as M
-
 import Data.Maybe
-
 import Data.List.Split
 import Data.List
-
-import Control.Lens
 import Data.Ord
-
 
 import Lib
 
@@ -68,13 +56,13 @@ timeParser = do
 
 evenDataParser :: Parser EventData
 evenDataParser =
-      pure FallsAsleep <* "falls asleep"
-  <|> pure WakesUp <* "wakes up"
-  <|> "Guard #" *> ((BeginsShift . Guard) <$> decimal) <* " begins shift"
+      FallsAsleep <$ "falls asleep"
+  <|> WakesUp <$ "wakes up"
+  <|> "Guard #" *> (BeginsShift . Guard <$> decimal) <* " begins shift"
 
 eventParser :: Parser Event
 eventParser =
-  pure Event <* "[" <*> timeParser <* "] " <*> evenDataParser
+  Event <$ "[" <*> timeParser <* "] " <*> evenDataParser
 
 eventsParser :: Parser [Event]
 eventsParser =
@@ -93,14 +81,14 @@ tally :: Ord a => Eq a => [a] -> [(a, Int)]
 tally = fmap (head &&& length) . group . sort
 
 isBeginsShift :: Event -> Bool
-isBeginsShift (Event time (BeginsShift _)) = True
+isBeginsShift (Event _ (BeginsShift _)) = True
 isBeginsShift _                            = False
 
 splitByGuards :: [Event] -> [[Event]]
 splitByGuards = split (keepDelimsL (whenElt isBeginsShift))
 
 guardBlock :: [Event] -> Maybe (Guard, [Event])
-guardBlock all@((Event time (BeginsShift g)):xs) = Just (g, all)
+guardBlock all@(Event _ (BeginsShift g):_) = Just (g, all)
 guardBlock _ = Nothing
 
 minute :: UTCTime -> Int
@@ -117,7 +105,7 @@ sleepyMinutes (x:xs) =
   concat (zipWith smin (x:xs) xs)
 
 code :: (Guard, (Int, Int)) -> Int
-code ((Guard k), (m, _)) = k * m
+code (Guard k, (m, _)) = k * m
 
 tallyMinutesByGuard :: [Event] -> [(Guard, [(Int, Int)])]
 tallyMinutesByGuard = 
@@ -132,7 +120,7 @@ tallyMinutesByGuard =
 solution :: PuzzlePart -> Text -> Text
 
 solution Part1 input = 
-  withEvents input $ (
+  withEvents input (
         tallyMinutesByGuard
     >>> maximumBy (comparing (sum . fmap snd . snd))
     >>> fst &&& maximumBy (comparing snd) . snd
@@ -141,7 +129,7 @@ solution Part1 input =
     >>> T.pack )
 
 solution Part2 input = 
-  withEvents input $ (
+  withEvents input (
         tallyMinutesByGuard
     >>> concatMap (\(g, l) -> zip (repeat g) l)
     >>> maximumBy (comparing (snd . snd))

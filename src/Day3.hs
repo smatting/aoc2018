@@ -9,15 +9,10 @@ import Data.Void
 import Data.Text (Text)
 import qualified Data.Text as T
 import Control.Arrow
-
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer
-
-import Control.Monad.Combinators
-
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-
 import Control.Lens
 import Data.Maybe
 

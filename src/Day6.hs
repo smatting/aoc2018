@@ -17,16 +17,9 @@ import Control.Arrow
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer
 
-import Data.Time.Clock
-import Data.Time.Calendar
-import Data.Time.LocalTime
-
-import Control.Monad.Combinators
-
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
 
-import Data.Maybe
 import Data.Either
 import Data.List
 
@@ -34,13 +27,6 @@ import Control.Lens
 import Data.Ord
 
 import Data.Char
-
-import           Data.CaseInsensitive  ( CI )
-import qualified Data.CaseInsensitive as CI
-
-import Control.Monad
-import Data.Traversable
-import Data.Functor
 
 import Lib
 
@@ -68,9 +54,9 @@ equating :: Eq a => (b -> a) -> b -> b -> Bool
 equating f x1 x2 = f x1 == f x2
 
 uniqueHead :: (a -> a -> Bool) -> [a] -> Maybe a
-uniqueHead f [] = Nothing
-uniqueHead f [x] = Just x
-uniqueHead f (x1:x2:xs)
+uniqueHead _ [] = Nothing
+uniqueHead _ [x] = Just x
+uniqueHead f (x1:x2:_)
   | f x1 x2 = Nothing
   | otherwise = Just x1
 
@@ -87,7 +73,7 @@ buildAnchorMap :: [Anchor] -> [Point] -> Map Anchor [(Point, Int)]
 buildAnchorMap anchors = 
           fmap (id &&& closestAnchor anchors)
       >>> foldl' f M.empty
-    where f m (p, Nothing) = m
+    where f m (_, Nothing) = m
           f m (p, Just (anchor, dist)) = M.insertWith (++) anchor [(p, dist)] m
 
 data Rectangle
@@ -115,7 +101,7 @@ rectanglePoints (Rectangle xmin ymin xmax ymax) =
 
 removeInfinite :: Rectangle -> Map Anchor [(Point, Int)] -> Map Anchor [(Point, Int)]
 removeInfinite bbox = M.filterWithKey f
-  where f anchor = not . any (touches bbox . fst)
+  where f _ = not . any (touches bbox . fst)
 
 show' :: Show a => a -> Text
 show' = T.pack . show

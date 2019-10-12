@@ -1,8 +1,3 @@
-{-# language BangPatterns #-}
-{-# language OverloadedStrings #-}
-{-# LANGUAGE ViewPatterns #-}
-
-
 module Day7
 
 where
@@ -11,39 +6,13 @@ import Text.Megaparsec
 import Data.Void
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.IO as T
-import Control.Arrow
-
 import Text.Megaparsec.Char
-import Text.Megaparsec.Char.Lexer
-
-import Data.Time.Clock
-import Data.Time.Calendar
-import Data.Time.LocalTime
-
-import Control.Monad.Combinators
-
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-
 import Data.Set (Set)
 import qualified Data.Set as S
-
-import Data.Maybe
 import Data.Either
 import Data.List
-
-import Control.Lens
-import Data.Ord
-
-import Data.Char
-
-import           Data.CaseInsensitive  ( CI )
-import qualified Data.CaseInsensitive as CI
-
-import Control.Monad
-import Data.Traversable
-import Data.Functor
 
 import Lib
 

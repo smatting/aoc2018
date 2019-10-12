@@ -3,19 +3,13 @@ module Day2
 where
 
 import Prelude
-import Data.Text.Read
 import Data.List (transpose)
 
-import Data.Either (rights)
 
-import Data.Set (Set)
 import qualified Data.Set as Set
-
 import Data.Map.Strict (Map)
 import qualified Data.Map as Map
-
-import Data.Foldable (foldr, foldl', asum)
-
+import Data.Foldable (foldl', asum)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Control.Arrow
@@ -35,14 +29,14 @@ valueCounts =
 firstRepeat :: Ord a => [a] -> Maybe a
 firstRepeat = f Set.empty
   where
-    f seen []     = Nothing
+    f _    []     = Nothing
     f seen (x:xs) | x `Set.member` seen = Just x
                   | otherwise = f (Set.insert x seen) xs
 
 dropLetters :: String -> [String]
 dropLetters = f ""
   where
-    f s []     = []
+    f _ []     = []
     f s (x:xs) = (s ++ xs) : f (s ++ [x]) xs 
 
 

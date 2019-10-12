@@ -2,14 +2,9 @@ module Lib
 where
 
 import Data.Text (Text)
-import qualified Data.Text as T
 import qualified Data.Text.IO as T
 
 data PuzzlePart = Part1 | Part2 deriving (Eq, Show)
-
-
-x = 3
-
 
 runSolver :: (PuzzlePart -> Text -> Text) -> FilePath -> PuzzlePart -> IO ()
 runSolver solver filename part =
