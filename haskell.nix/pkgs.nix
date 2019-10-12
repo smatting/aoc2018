@@ -159,6 +159,8 @@
         "transformers-base".revision = (((hackage."transformers-base")."0.4.5.2").revisions).default;
         "transformers-base".flags.orphaninstances = true;
         "filepath".revision = (((hackage."filepath")."1.4.2.1").revisions).default;
+        "monad-loops".revision = (((hackage."monad-loops")."0.4.3").revisions).default;
+        "monad-loops".flags.base4 = true;
         "process".revision = (((hackage."process")."1.6.5.0").revisions).default;
         "kan-extensions".revision = (((hackage."kan-extensions")."5.2").revisions).default;
         "libyaml".revision = (((hackage."libyaml")."0.1.1.0").revisions).default;

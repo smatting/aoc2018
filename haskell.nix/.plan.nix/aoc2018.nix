@@ -41,6 +41,7 @@
           (hsPkgs.yaml)
           (hsPkgs.raw-strings-qq)
           (hsPkgs.optics)
+          (hsPkgs.monad-loops)
           ];
         };
       exes = {

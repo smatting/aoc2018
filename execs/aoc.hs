@@ -24,9 +24,9 @@ puzzlePartParser :: Parser PuzzlePart
 puzzlePartParser =
   flag Part1 Part2 (long "bonus")
 
-runSolver :: (PuzzlePart -> Text -> Text) -> FilePath -> PuzzlePart -> IO ()
-runSolver solver filename part =
-  solver part <$> T.readFile filename >>= T.putStrLn
+-- runSolver :: (PuzzlePart -> Text -> Text) -> FilePath -> PuzzlePart -> IO ()
+-- runSolver solver filename part =
+--   solver part <$> T.readFile filename >>= T.putStrLn
 
 mk :: String -> (PuzzlePart -> Text -> Text) -> Mod CommandFields (IO ())
 mk day solver =
